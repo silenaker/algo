@@ -40,7 +40,21 @@
           {%- elif _algo_ssh_user.user_input %}{{ _algo_ssh_user.user_input }}
           {%- else %}root{% endif %}
   when: cloud_instance_ip != "localhost"
+  
+- pause:
+    prompt: |
+      What ssh port does the server listen on?
+      [22]
+  register: _algo_ssh_port
+  when: ssh_port is undefined
 
+- name: Set the facts
+  set_fact:
+    ansible_ssh_port: >-
+      {% if ssh_port is defined %}{{ ssh_port }}
+      {%- elif _algo_ssh_port.user_input %}{{ _algo_ssh_port.user_input }}
+      {%- else %}22{% endif %}
+  
 - pause:
     prompt: |
       Enter the public IP address or domain name of your server: (IMPORTANT! This is used to verify the certificate)
