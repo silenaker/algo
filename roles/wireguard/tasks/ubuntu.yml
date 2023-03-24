@@ -3,7 +3,7 @@
   apt:
     name: wireguard
     state: present
-    update_cache: true
+    update_cache: false
 
 - name: Set OS specific facts
   set_fact:
